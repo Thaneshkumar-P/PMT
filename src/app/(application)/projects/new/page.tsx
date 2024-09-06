@@ -1,6 +1,6 @@
 import CustomFields from "@/src/app/ui/projects/CustomFields";
 import CustomFieldsSelector from "@/src/app/ui/projects/CustomFieldsSelector";
-import Teams from "@/src/app/ui/projects/teams";
+// import Teams from "@/src/app/ui/projects/teams";
 
 
 export default function Page() {
@@ -102,11 +102,11 @@ export default function Page() {
             </div>
             <hr></hr>
             <div className='p-6'>
-              <Teams />
+              {/* <Teams /> */}
             </div>
             <hr></hr>
             <div className='p-6'>
-              <CustomFields id="project" />
+              {/* <CustomFields id="project" /> */}
             </div>
             <hr></hr>
             <div>

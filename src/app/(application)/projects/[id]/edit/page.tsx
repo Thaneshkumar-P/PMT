@@ -1,6 +1,6 @@
 import CustomFields from "@/src/app/ui/projects/CustomFields";
 import CustomFieldsSelector from "@/src/app/ui/projects/CustomFieldsSelector";
-import Teams from "@/src/app/ui/projects/teams";
+// import Teams from "@/src/app/ui/projects/teams";
 
 
 export default function Page() {
@@ -102,7 +102,7 @@ export default function Page() {
             </div>
             <hr></hr>
             <div className='p-6'>
-              <CustomFields />
+              {/* <CustomFields id="project" /> */}
             </div>
             <hr></hr>
             <div>
@@ -119,7 +119,7 @@ export default function Page() {
           <div>
             <div className="bg-white shadow col-span-3 rounded-[16px]">
               <div className="p-6">
-                <CustomFieldsSelector />
+                <CustomFieldsSelector id="project" />
               </div>
             </div>
           </div>

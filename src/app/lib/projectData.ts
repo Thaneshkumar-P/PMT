@@ -146,40 +146,4 @@ const projects: ProjectData[] = [
   }
 ];
 
-
-export const TeamData: Team[] = [
-  {
-    teamId: '101',
-    teamName: 'Team 1',
-    teamMembers: [
-      {
-        icon: DP,
-        name: 'Member Name'
-      },
-      {
-        icon: DP,
-        name: 'Member Name'
-      },
-      {
-        icon: DP,
-        name: 'Member Name'
-      }
-    ]
-  },
-  {
-    teamId: '102',
-    teamName: 'Team 2',
-    teamMembers: [
-      {
-        icon: DP,
-        name: 'Member Name'
-      },
-      {
-        icon: DP,
-        name: 'Member Name'
-      }
-    ]
-  },
-]
-
 export {projects};
