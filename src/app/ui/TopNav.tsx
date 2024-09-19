@@ -4,6 +4,7 @@ import Search from '@/public/icons/search-web.svg'
 import DP from '@/public/evil-rabbit.png'
 import Image from 'next/image'
 import { BellIcon, SearchIcon } from 'lucide-react'
+import SearchBar from './searchbar'
 
 export default function TopNav() {
   return (
@@ -14,18 +15,7 @@ export default function TopNav() {
             <Image src={eghai} alt='eghai' width={75}/>
           </div>
           <div className="w-[30%]">
-            <div className="relative rounded-md">
-              <div className="relative">
-                <input
-                  id="projectSearch"
-                  name="projectSearch"
-                  type="text"
-                  placeholder="Search project"
-                  className="border rounded-md w-full input-border text-black placeholder-gray-500 border-gray-400 p-0.5 pb-1.5 pl-10 outline-none"
-                />
-                <SearchIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 cursor-pointer" width={50} />
-              </div>
-            </div>
+            <SearchBar placeholder='Search . . .'/>
           </div>
           <BellIcon width={30}/>
           <div className="flex flex-row gap-4 max-w-fit w-[50%]">

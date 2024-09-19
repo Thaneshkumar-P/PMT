@@ -66,3 +66,19 @@ export type Team = {
   users: string[];
   projects: string[]
 }
+
+type TaskStatus = 'Pending' | 'Completed' | 'Started' | 'Canceled';
+
+export type Task = {
+  taskName: string;
+  taskId: string;
+  createdDate: string;
+  createdBy: string;
+  statuses: TaskStatus;
+  priority: 'High' | 'Low' | 'Medium'
+  timer: string;
+  userImage: string;
+  hasMessages: boolean;
+}
+
+

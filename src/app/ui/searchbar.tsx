@@ -35,7 +35,7 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
               name="projectSearch"
               type="text"
               placeholder={placeholder}
-              className="border rounded-md w-full input-border text-black placeholder-gray-500 border-gray-300 p-0.5 pb-1.5 pl-10 outline-none"
+              className="border rounded-md w-full input-border text-black placeholder-gray-500 border-gray-300 p-0.5 pb-1.5 pl-10 pt-[0.3rem] outline-none"
               onChange={(e) => {
                 handleSearch(e.target.value);
               }}              

@@ -102,7 +102,7 @@ export default function CustomFields({id, onChange, additional}: {id: string, on
               placeholder={field.fieldName}
               value={additional?.[field.fieldName] || ""}
               onChange={(e) => onChange(field.fieldName, e.target.value)}
-              className="custom-field border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+              className="custom-field border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
             />
           </div>
         ))}
@@ -146,7 +146,7 @@ export default function CustomFields({id, onChange, additional}: {id: string, on
                           value={newFieldName}
                           onChange={(e) => setNewFieldName(e.target.value)}
                           placeholder="Field Name"
-                          className="border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+                          className="border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                         />
                       </div>
                       <div className="relative mt-2 rounded-md col-span-2">
@@ -157,7 +157,7 @@ export default function CustomFields({id, onChange, additional}: {id: string, on
                           id="type"
                           value={newFieldType}
                           onChange={(e) => setNewFieldType(e.target.value)}
-                          className="border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+                          className="border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                         >
                           <option value="" disabled>Choose type</option>
                           <option value="text">Text</option>

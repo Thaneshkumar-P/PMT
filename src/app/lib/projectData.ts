@@ -1,4 +1,4 @@
-import { ProjectData , Team} from "./definition";
+import { ProjectData , Task, Team} from "./definition";
 import DP from '@/public/evil-rabbit.png'
 
 const projects: ProjectData[] = [
@@ -146,4 +146,118 @@ const projects: ProjectData[] = [
   }
 ];
 
-export {projects};
+const mockTasks: Task[] = [
+  {
+    taskName: 'Develop Login Module',
+    taskId: '#00001',
+    createdDate: '2024-09-01',
+    createdBy: 'Alice',
+    statuses: 'Canceled',
+    priority: 'High',
+    timer: '01 : 45 : 30',
+    userImage: '/images/alice.png',
+    hasMessages: true,
+  },
+  {
+    taskName: 'Design Dashboard UI',
+    taskId: '#00002',
+    createdDate: '2024-09-02',
+    createdBy: 'Bob',
+    statuses: 'Started',
+    priority: 'Medium',
+    timer: '02 : 00 : 00',
+    userImage: '/images/bob.png',
+    hasMessages: false,
+  },
+  {
+    taskName: 'API Integration',
+    taskId: '#00003',
+    createdDate: '2024-09-03',
+    createdBy: 'Charlie',
+    statuses: 'Canceled',
+    timer: '00 : 20 : 15',
+    priority: 'Medium',
+    userImage: '/images/charlie.png',
+    hasMessages: true,
+  },
+  {
+    taskName: 'Fix Bugs in Auth Service',
+    taskId: '#00004',
+    createdDate: '2024-09-04',
+    createdBy: 'David',
+    statuses: 'Started',
+    timer: '00 : 15 : 00',
+    priority: 'Medium',
+    userImage: '/images/david.png',
+    hasMessages: true,
+  },
+  {
+    taskName: 'Database Schema Design',
+    taskId: '#00005',
+    createdDate: '2024-09-05',
+    createdBy: 'Eve',
+    statuses: 'Canceled',
+    timer: '02 : 30 : 00',
+    priority: 'Medium',
+    userImage: '/images/eve.png',
+    hasMessages: false,
+  },
+  {
+    taskName: 'Setup CI/CD Pipeline',
+    taskId: '#00006',
+    createdDate: '2024-09-06',
+    createdBy: 'Frank',
+    statuses: 'Started',
+    timer: '01 : 00 : 00',
+    priority: 'Medium',
+    userImage: '/images/frank.png',
+    hasMessages: false,
+  },
+  {
+    taskName: 'Write Unit Tests',
+    taskId: '#00007',
+    createdDate: '2024-09-07',
+    createdBy: 'Grace',
+    statuses: 'Canceled',
+    timer: '03 : 15 : 45',
+    priority: 'Medium',
+    userImage: '/images/grace.png',
+    hasMessages: true,
+  },
+  {
+    taskName: 'Optimize Database Queries',
+    taskId: '#00008',
+    createdDate: '2024-09-08',
+    createdBy: 'Henry',
+    statuses: 'Completed',
+    timer: '00 : 50 : 30',
+    priority: 'Medium',
+    userImage: '/images/henry.png',
+    hasMessages: true,
+  },
+  {
+    taskName: 'Create Landing Page',
+    taskId: '#00009',
+    createdDate: '2024-09-09',
+    createdBy: 'Ivy',
+    statuses: 'Pending',
+    timer: '01 : 25 : 00',
+    priority: 'Medium',
+    userImage: '/images/ivy.png',
+    hasMessages: false,
+  },
+  {
+    taskName: 'Deploy Application to Production',
+    taskId: '#00010',
+    createdDate: '2024-09-10',
+    createdBy: 'Jack',
+    statuses: 'Pending',
+    priority: 'Medium',
+    timer: '02 : 40 : 00',
+    userImage: '/images/jack.png',
+    hasMessages: true,
+  },
+];
+
+
+export {projects, mockTasks,};

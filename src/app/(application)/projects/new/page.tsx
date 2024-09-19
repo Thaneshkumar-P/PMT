@@ -1,9 +1,41 @@
+'use client'
+
 import CustomFields from "@/src/app/ui/projects/CustomFields";
 import CustomFieldsSelector from "@/src/app/ui/projects/CustomFieldsSelector";
-// import Teams from "@/src/app/ui/projects/teams";
+import { useEffect, useState } from "react";
+import { getTeam, getTeams } from "../../teams/actions";
+import { Team, User } from "@/src/app/lib/definition";
+import TeamCard from "@/src/app/ui/teams/teamsCard";
 
 
 export default function Page() {
+
+  const [customFields, setCustomFields] = useState<any>({});
+  const [teams, setTeams] = useState<Team[]>()
+  const [selectedTeam, setSelectedTeam] = useState<User[]>()
+
+
+  useEffect(() => {
+    (async function() {
+      const teamsData = await getTeams()
+      setTeams(teamsData)
+    })()
+  }, [])
+
+  function handleCustomFieldChange(id: string, value: string): void {
+    setCustomFields({
+      ...customFields,
+      [id]: value
+    });
+  }
+
+  async function getSelectedTeam(id: string) {    
+    const team = await getTeam(id)
+    setSelectedTeam(team.users)
+    console.log(team)
+    return;
+  }
+
   return (
     <>
       <div className="p-5 w-full">
@@ -24,7 +56,7 @@ export default function Page() {
                       name="projectTitle"
                       type={"text"}
                       placeholder="Project Title"
-                      className="border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+                      className="border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
                 </div>
@@ -38,7 +70,7 @@ export default function Page() {
                       name="projectType"
                       type="text"
                       placeholder="Project Type"
-                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
                 </div>
@@ -51,7 +83,7 @@ export default function Page() {
                       id="startDate"
                       name="startDate"
                       type="date"
-                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
                 </div>
@@ -64,7 +96,7 @@ export default function Page() {
                       id="endDate"
                       name="endDate"
                       type="date"
-                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
                 </div>
@@ -77,7 +109,7 @@ export default function Page() {
                       id="description"
                       name="description"
                       placeholder="Project Description"
-                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none resize-none"
+                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none resize-none"
                     />
                   </div>
                 </div>
@@ -89,12 +121,32 @@ export default function Page() {
                     <select
                       id="priority"
                       name="priority"
-                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 pb-2 outline-none"
+                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
+                      defaultValue=""
                     >
-                      <option disabled>Choose Priority</option>
+                      <option value="" disabled>Choose Priority</option>
                       <option value={'High'}>High</option>
                       <option value={'Medium'}>Medium</option>
                       <option value={'Low'}>Low</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="relative mt-2 rounded-md col-span-2">
+                  <div className='mb-2'>
+                    <label htmlFor='team' className='font-medium'>Team</label>
+                  </div>  
+                  <div className="relative">
+                    <select
+                      id="team"
+                      name="team"
+                      className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
+                      defaultValue=""
+                      onChange={(e) => getSelectedTeam(e.target.value)}
+                    >
+                      <option value="" disabled>Choose Team</option>
+                      {teams?.map(team => (
+                        <option value={team._id} key={team._id} >{team.teamName}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -102,11 +154,11 @@ export default function Page() {
             </div>
             <hr></hr>
             <div className='p-6'>
-              {/* <Teams /> */}
+              <TeamCard users={selectedTeam} />
             </div>
             <hr></hr>
             <div className='p-6'>
-              {/* <CustomFields id="project" /> */}
+              <CustomFields id="project" onChange={handleCustomFieldChange} />
             </div>
             <hr></hr>
             <div>

@@ -6,6 +6,8 @@ import { LogChart, PerformanceChart, TaskChart } from "../../ui/charts/Charts";
 import { dataPie, dataLog, dataPer } from "../../lib/chartData";
 import { Lightbulb, MessageSquare, Timer } from "lucide-react";
 import DP from '@/public/evil-rabbit.png'
+import Slider from "../../ui/dashboard/Slider";
+import TaskSlider from "../../ui/dashboard/TaskSlider";
 
 
 export default function Page() {
@@ -23,32 +25,8 @@ export default function Page() {
                 <div className="mb-3">
                   <h4 className="font-medium bold text-[20px]">Pending tasks</h4>
                 </div>
-                <div>
-                  <div className="flex flex-row gap-3 items-center shadow py-3 rounded-2xl px-4">
-                    <Lightbulb />
-                    <div className="flex flex-col">
-                      <h4 className="font-medium text-md">Task Name</h4>
-                      <h4 className="font-medium text-sm text-gray-500">#00000 Created-Date 
-                        <span className="text-md text-black">{' '}Created-By{' '}</span>
-                        <span className="text-md text-black p-0.5 bg-[#ff050578] rounded-md pl-2 pe-2">Canceled</span>
-                        <span className="text-md text-black p-0.5 bg-green-100 rounded-md pl-2 pe-2">Completed</span>
-                      </h4>
-                    </div>
-                    <div className="ml-auto">
-                      <div className="flex flex-row gap-10 items-center">
-                        <div className="flex flex-row gap-2 items-center bg-green-100 rounded-md p-2">
-                          <Timer />
-                          <h4 className="font-medium text-sm text-gray-500">00 : 30 : 00</h4>
-                        </div>
-                        <div className="verflow-clip ml-[-8px] clip-box border-[2px] border-white rounded-full">
-                          <Image src={DP} alt='DP' width={30} className='rounded-full'/>
-                        </div>
-                        <div className="verflow-clip ml-[-8px] clip-box border-[2px] border-white rounded-full">
-                          <MessageSquare />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="p-3">
+                  <TaskSlider />
                 </div>
               </div>
             </div>
@@ -57,23 +35,8 @@ export default function Page() {
                 <div className="flex flex-row justify-between mb-4">
                   <h4 className="font-medium bold text-[20px]">Projects</h4>
                 </div>
-                <div className="flex flex-col justify-between gap-3">
-                  <div className="bg-blue-50 rounded flex flex-row justify-between p-3">
-                    <h4>Projects</h4>
-                    <h4>54%</h4>
-                  </div>
-                  <div className="bg-blue-50 rounded flex flex-row justify-between p-3">
-                    <h4>Projects</h4>
-                    <h4>54%</h4>
-                  </div>                  
-                  <div className="bg-blue-50 rounded flex flex-row justify-between p-3">
-                    <h4>Projects</h4>
-                    <h4>54%</h4>
-                  </div>
-                  <div className="bg-blue-50 rounded flex flex-row justify-between p-3">
-                    <h4>Projects</h4>
-                    <h4>54%</h4>
-                  </div>
+                <div className="p-3">
+                  <Slider />
                 </div>
               </div>
             </div>

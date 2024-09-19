@@ -1,0 +1,39 @@
+.custom-prev,
+.custom-next {
+  cursor: pointer;
+  background: hsla(0, 0%, 100%, .12);
+  padding: 10px;
+  color: white;
+  font-size: 18px;
+  z-index: 10;
+  transition: background-color 0.3s;
+  backdrop-filter: blur(2px);
+}
+
+.custom-prev {
+  left: -35px;
+}
+
+.custom-next {
+  right: -35px;
+}
+
+.custom-prev-task,
+.custom-next-task {
+  cursor: pointer;
+  background: hsla(0, 0%, 100%, .12);
+  padding: 10px;
+  color: white;
+  font-size: 18px;
+  z-index: 10;
+  transition: background-color 0.3s;
+  backdrop-filter: blur(2px);
+}
+
+.custom-next-task {
+  right: 0
+}
+
+.custom-prev-task {
+  left: 0
+}

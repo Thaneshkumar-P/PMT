@@ -19,7 +19,6 @@ export async function POST(request: Request) {
     }
 
     let res;
-    console.log(data)
     if(data.access_token){
       res = NextResponse.json({ message: 'Login successful' });
       res.cookies.set('token', data.access_token, { httpOnly: true, path: '/' });

@@ -54,7 +54,7 @@ export default function CustomFieldsSelector({ id, additional }: { id: string, a
       </div>
       <div className='p-2'>
         <div className='flex flex-col gap-3'>
-          {fields?.filter(field => field.fieldFor === 'people')?.map((field, index) => (
+          {fields?.filter(field => field.fieldFor === id)?.map((field, index) => (
             <div className='flex gap-4 items-center p-2 pl-3 pe-3' key={field.fieldName}>
               <input type='checkbox' className='bg-blue-400 mt-1 w-3' checked={field.value} id={field.fieldName} onChange={() => handleFields(field, index)} />
               <h4 className='font-medium text-md'>{field.fieldName}</h4>

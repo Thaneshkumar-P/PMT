@@ -10,6 +10,7 @@ import { deleteTeam, getTeam } from '../actions'
 import { Team, User } from '@/src/app/lib/definition'
 import SnackBar from '@/src/app/ui/SnackBar'
 import { useRouter } from 'next/navigation'
+import TeamCard from '@/src/app/ui/teams/teamsCard'
 
 export default function Page() {
 
@@ -111,23 +112,9 @@ export default function Page() {
             </div>
             <hr></hr>
             <div className="p-6">
-              <div className='grid grid-cols-3 gap-2'>
-                <Suspense fallback={<h4>Loading</h4>}>
-                  {users?.map(user => (
-                    <div className='border border-gray-300 rounded-md p-4 custom-box-shadow' key={user._id}>
-                      <div className='flex flex-row gap-5 flex-nowrap'>
-                        <div className='flex items-center'>
-                          <Image src={DP} alt='user' className='rounded-full' width={40} ></Image>
-                        </div>
-                        <div>
-                          <h4 className='font-medium text-[17px] text-nowrap'>{user.fullName}</h4>
-                          <h4 className='font-small text-[15px] text-gray-500'>{user.role}</h4>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </Suspense>
-                </div>
+              <Suspense fallback={<h4>Loading</h4>}>
+                <TeamCard users={users} />
+              </Suspense>
             </div>
             <hr></hr>
             <div className="p-6">
