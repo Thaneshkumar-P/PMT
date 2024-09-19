@@ -1,13 +1,17 @@
-import TopNav from "../../ui/TopNav";
-import Image from "next/image";
-import ListIcon from '@/public/icons/list-box.svg'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/components/ui/select'
-import { LogChart, PerformanceChart, TaskChart } from "../../ui/charts/Charts";
 import { dataPie, dataLog, dataPer } from "../../lib/chartData";
-import { Lightbulb, MessageSquare, Timer } from "lucide-react";
-import DP from '@/public/evil-rabbit.png'
 import Slider from "../../ui/dashboard/Slider";
+import dynamic from "next/dynamic";
 import TaskSlider from "../../ui/dashboard/TaskSlider";
+
+const TaskChart = dynamic(() => import('../../ui/charts/Charts').then(mod => mod.TaskChart), {
+  ssr: false,
+});
+const LogChart = dynamic(() => import('../../ui/charts/Charts').then(mod => mod.LogChart), {
+  ssr: false,
+});
+const PerformanceChart = dynamic(() => import('../../ui/charts/Charts').then(mod => mod.PerformanceChart), {
+  ssr: false,
+});
 
 
 export default function Page() {

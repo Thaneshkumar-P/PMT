@@ -17,7 +17,7 @@ export default function TaskSlider() {
 
   return (
     <>
-      <div className="relative h-[250px]"> {/* Set a fixed height for the Swiper container */}
+      <div className="relative h-[250px]">
         <Swiper
           direction={'vertical'}
           // navigation={{

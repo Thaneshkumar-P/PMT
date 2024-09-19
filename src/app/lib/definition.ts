@@ -13,10 +13,9 @@ export type LogStruct = {
 }
 
 export type PerStruct = {
-  name: string;
-  uv: number;
-  pv: number
-  amt: number;
+  month: string,
+  tasksCompleted: number
+  hoursSpent: number
 }
 
 export interface ProjectData {

@@ -24,8 +24,6 @@ export default function Slider() {
         }}
         spaceBetween={50}
         slidesPerView={1}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
       >
         {projects.map(project => (
           <SwiperSlide className='p-2 h-full' key={project.projectId}> {/* Ensure each slide can grow */}
