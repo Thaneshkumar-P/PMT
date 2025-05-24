@@ -1,12 +1,69 @@
-import Edit from '@/public/icons/edit.svg'
+'use client'
+
 import Image from 'next/image'
 import DP from '@/public/evil-rabbit.png'
 import { ChevronRight, CogIcon, Edit3Icon, FolderArchive, FolderDot, FolderIcon, MoreVertical, Settings } from 'lucide-react'
-import { PerformanceChart, TaskChart } from '@/src/app/ui/charts/Charts'
 import { dataPer, dataPie } from '@/src/app/lib/chartData'
 import Link from 'next/link'
+import GanttChart from '@/src/app/ui/projects/Gantt'
+import { getProjectById } from '../actions'
+import { useParams } from 'next/navigation'
+import { Project, Team } from '@/src/app/lib/definition'
+import { format } from 'date-fns'
+import { useEffect, useState } from 'react'
+import { getTeam } from '../../teams/actions'
+import dynamic from 'next/dynamic'
+
+const TaskChart = dynamic(() => import('../../../ui/charts/Charts').then(mod => mod.TaskChart), {
+  ssr: false,
+});
+const PerformanceChart = dynamic(() => import('../../../ui/charts/Charts').then(mod => mod.PerformanceChart), {
+  ssr: false,
+});
+
+
 
 export default function Page() {
+
+  const { id }: { id: string } = useParams()
+  const [project, setProject] = useState<Project>()
+  const [team, setTeam] = useState<Team>()
+
+  const phases = [
+    {
+      name: 'Planning',
+      status: 'In Progress',
+      startDate: new Date('2024-10-01'),
+      endDate: new Date('2024-10-10'),
+    },
+    {
+      name: 'Development',
+      status: 'Pending',
+      startDate: new Date('2024-10-11'),
+      endDate: new Date('2024-10-30'),
+    },
+  ];
+  
+  useEffect(() => {
+    (async function() {
+      const response = await getProjectById(id)
+      setProject(response)
+      const interval = setInterval(() => getProjectTeam(), 500)
+      if(team) {
+        clearInterval(interval)
+        console.log(team)
+      }
+    })()
+  }, [])
+
+  async function getProjectTeam() {
+    if(project?.team) {
+      console.log(project)
+      const teamResponse = await getTeam(project.team)
+      setTeam(teamResponse)
+    }
+  }
+  
   return (
     <>
       <div className="p-5 w-full">
@@ -15,16 +72,16 @@ export default function Page() {
             <div className="p-6">
               <div className="flex items-center flex-row justify-between">
                 <div className="flex flex-row gap-3">
-                  <h4 className="font-medium text-xl">Project Name</h4>
+                  <h4 className="font-medium text-xl">{project?.name}</h4>
                 </div>
                 <div>
-                  <Link href={'1/edit'}>
+                  <Link href={`${id}/edit`}>
                     <h4 className="font-medium text-xl p-3"><Edit3Icon color='gray' width={25}/></h4> 
                   </Link>
                 </div>
               </div>
               <div>
-                <p className="text-gray-500 text-[14px] font-small text-justify" style={{ lineHeight: 1.75 }}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi excepturi exercitationem saepe quia velit architecto ullam quod optio quidem modi molestias consequatur ut earum pariatur porro, enim facilis iure quibusdam!</p>
+                <p className="text-gray-500 text-[14px] font-small text-justify" style={{ lineHeight: 1.75 }}>{project?.description}</p>
               </div>
             </div>
             <hr></hr>
@@ -35,19 +92,19 @@ export default function Page() {
               <div className='grid grid-cols-3 gap-y-5'>
                 <div>
                   <h4 className='text-sm font-semibold text-gray-500'>Project Type</h4>
-                  <h4 className='text-md font-semibold text-black'>Project Type</h4>
+                  <h4 className='text-md font-semibold text-black'>{project?.type}</h4>
                 </div>
                 <div>
                   <h4 className='text-sm font-semibold text-gray-500'>Start Date</h4>
-                  <h4 className='text-md font-semibold text-black'>Start Date</h4>
+                  <h4 className='text-md font-semibold text-black'>{format(project?.startDate ?? new Date(), 'PPPP')}</h4>
                 </div>
                 <div>
                   <h4 className='text-sm font-semibold text-gray-500'>End Date</h4>
-                  <h4 className='text-md font-semibold text-black'>End Date</h4>
+                  <h4 className='text-md font-semibold text-black'>{format(project?.endDate  ?? new Date(), 'PPPP')}</h4>
                 </div>
                 <div>
                   <h4 className='text-sm font-semibold text-gray-500'>Priority</h4>
-                  <h4 className='text-md font-semibold text-black'>Priority</h4>
+                  <h4 className='text-md font-semibold text-black'>{project?.priority}</h4>
                 </div>
               </div>
             </div>
@@ -62,11 +119,11 @@ export default function Page() {
                     <div>
                       <div className="flex justify-between mb-1">
                         <span className="text-base font-medium text-blue-700 dark:text-white"></span>
-                        <span className="text-sm font-medium text-blue-700 dark:text-white">50%</span>
+                        <span className="text-sm font-medium text-blue-700 dark:text-white">{project?.approved}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
-                        <div className="relative bg-blue-600 h-1.5 rounded-full" style={{ width: '50' + '%', zIndex: 1 }}></div>
-                        <div className="relative bg-blue-200 h-1.5 rounded-full -mt-[6px]" style={{ width: '75' + '%', zIndex: 0 }}></div>
+                        <div className="relative bg-blue-600 h-1.5 rounded-full" style={{ width: `${project?.approved}%`, zIndex: 1 }}></div>
+                        <div className="relative bg-blue-200 h-1.5 rounded-full -mt-[6px]" style={{ width: `${project?.completed}%`, zIndex: 0 }}></div>
                       </div>
                       <div className="flex justify-start gap-5 mt-1">
                         <span className="text-sm font-medium text-blue-600 dark:text-white">Approved</span>
@@ -80,39 +137,18 @@ export default function Page() {
                 </div>  
                 <div>
                   <div className="flex flex-row justify-start gap-4 items-center mb-2">
-                    <Link href={'100/tasks'}>
-                      <h4 className="font-medium text-xl">Tasks</h4>
+                    <Link href={`${id}/phases`} className='flex items-center'>
+                      <h4 className="font-medium text-xl">Phases</h4>
+                      <ChevronRight color='gray'/>
                     </Link>
                   </div>
-                  <div className='p-2'>
-                    <div className='flex flex-col gap-2'>
-                      <div className='flex gap-4 items-center'>
-                        <div>
-                          <h4 className='font-medium text-md'>Task name</h4>
-                          <h4 className='font-medium text-sm text-gray-500'>Status</h4>
-                        </div>
-                        <div className='ml-auto mr-3'>
-                          <h4 className='font-medium text-md'><ChevronRight /></h4>
-                        </div>
-                      </div>
-                      <div className='flex gap-4 items-center'>
-                        <div>
-                          <h4 className='font-medium text-md'>Task name</h4>
-                          <h4 className='font-medium text-sm text-gray-500'>Status</h4>
-                        </div>
-                        <div className='ml-auto mr-3'>
-                          <h4 className='font-medium text-md'><ChevronRight /></h4>
-                        </div>
-                      </div>
-                      <div className='flex gap-4 items-center'>
-                        <div>
-                          <h4 className='font-medium text-md'>Task name</h4>
-                          <h4 className='font-medium text-sm text-gray-500'>Status</h4>
-                        </div>
-                        <div className='ml-auto mr-3'>
-                          <h4 className='font-medium text-md'><ChevronRight /></h4>
-                        </div>
-                      </div>
+                  <div className=''>
+                    <div className="mx-auto">
+                      <GanttChart 
+                        phases={phases}
+                        projectStartDate={new Date('2024-10-01')}
+                        projectEndDate={new Date('2024-10-31')}
+                      />
                     </div>
                   </div>
                 </div>
@@ -162,7 +198,7 @@ export default function Page() {
                       <h4 className='font-medium text-md'><ChevronRight /></h4>
                     </div>
                   </div>
-                  <Link href='1/settings'>
+                  <Link href={`${id}/settings`}>
                   <div className='flex flex-row items-center gap-3'>
                     <div>
                       <Settings size={50} />
@@ -190,18 +226,16 @@ export default function Page() {
                   </div>
                 </div>
                 <div className='flex flex-col gap-4'>
-                  <div>
-                    <h4 className='text-sm font-semibold text-gray-500'>CS 1</h4>
-                    <h4 className='text-md font-semibold text-black'>CS 1</h4>
-                  </div>
-                  <div>
-                    <h4 className='text-sm font-semibold text-gray-500'>CS 2</h4>
-                    <h4 className='text-md font-semibold text-black'>CS 2</h4>
-                  </div>
-                  <div>
-                    <h4 className='text-sm font-semibold text-gray-500'>CS 3</h4>
-                    <h4 className='text-md font-semibold text-black'>CS 3</h4>
-                  </div>
+                  {project?.additional && Object.keys(project.additional).length > 0 ? (
+                    Object.keys(project.additional).map((addInfo: any) => (
+                      <div key={addInfo}>
+                        <h4 className='text-sm font-semibold text-gray-500'>{addInfo}</h4>
+                        <h4 className='text-md font-semibold text-black'>{project.additional?.[addInfo]}</h4>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No additional information available</p>
+                  )}
                 </div>
               </div>
             </div>

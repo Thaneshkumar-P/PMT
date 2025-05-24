@@ -2,6 +2,7 @@ import { dataPie, dataLog, dataPer } from "../../lib/chartData";
 import Slider from "../../ui/dashboard/Slider";
 import dynamic from "next/dynamic";
 import TaskSlider from "../../ui/dashboard/TaskSlider";
+import { getAllProjects } from "../projects/actions";
 
 const TaskChart = dynamic(() => import('../../ui/charts/Charts').then(mod => mod.TaskChart), {
   ssr: false,
@@ -14,7 +15,9 @@ const PerformanceChart = dynamic(() => import('../../ui/charts/Charts').then(mod
 });
 
 
-export default function Page() {
+export default async function Page() {
+
+  const projects = await getAllProjects()
 
   return (
     <>
@@ -40,7 +43,7 @@ export default function Page() {
                   <h4 className="font-medium bold text-[20px]">Projects</h4>
                 </div>
                 <div className="p-3">
-                  <Slider />
+                  <Slider projects={projects} />
                 </div>
               </div>
             </div>

@@ -1,7 +1,6 @@
 'use client';
 
-import { projects } from "@/src/app/lib/projectData"
-import { ProjectData } from "@/src/app/lib/definition"
+import { Project } from "@/src/app/lib/definition"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, A11y, Mousewheel, Autoplay, EffectCreative } from 'swiper/modules';
 import 'swiper/css';
@@ -10,7 +9,7 @@ import Card from './Card';
 import '@/src/app/slider.css';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function Slider() {
+export default function Slider({ projects }: { projects: Project[]}) {
   return (
     <div className='relative'>
       <Swiper
@@ -24,9 +23,10 @@ export default function Slider() {
         }}
         spaceBetween={50}
         slidesPerView={1}
+        loop
       >
         {projects.map(project => (
-          <SwiperSlide className='p-2 h-full' key={project.projectId}> {/* Ensure each slide can grow */}
+          <SwiperSlide className='p-2 h-full' key={project._id}> {/* Ensure each slide can grow */}
             <Card project={project} />
           </SwiperSlide>
         ))}

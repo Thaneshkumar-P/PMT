@@ -4,12 +4,15 @@ import { Info } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { jwtVerification } from "../../(application)/actions";
+import { useAppDispatch } from "@/src/lib/store";
+import { setUser } from "@/src/lib/slice/UserSlice";
 
 
 export default function LoginButton({ token }: { token: string }) {
   const [error, setError] = useState('')
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
+  const dispatch = useAppDispatch()
 
   const router = useRouter();
 
@@ -18,7 +21,6 @@ export default function LoginButton({ token }: { token: string }) {
       if(!token) return
       try {
         const isValid = await jwtVerification(token);
-        console.log(1, isValid)
         if (isValid) {
           router.replace('/dashboard');
         }
@@ -60,7 +62,11 @@ export default function LoginButton({ token }: { token: string }) {
       });
 
       if (res.ok) {
-        router.push('/dashboard');
+        const user = await res.json()
+        dispatch(setUser(user.user))
+        setTimeout(() => {
+          router.replace('/dashboard');
+        }, 0);  
       } else {        
         const data = await res.json();
         setError(data.message);

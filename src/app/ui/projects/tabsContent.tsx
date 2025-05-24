@@ -5,9 +5,11 @@ import Link from "next/link"
 import Image from "next/image"
 import DP from '@/public/evil-rabbit.png'
 import Issue from '@/public/icons/folder-alert.svg'
-import { projects } from "@/src/app/lib/projectData"
-import { ProjectData } from "@/src/app/lib/definition"
+import { Project, Team } from "@/src/app/lib/definition"
 import { ArrowLeft, ArrowRight } from "lucide-react"
+import { getAllProjects } from "../../(application)/projects/actions"
+import { format } from "date-fns"
+import { useAppSelector } from "@/src/lib/store"
 
 export default function TabsContent({
   query,
@@ -15,9 +17,18 @@ export default function TabsContent({
   query: string;
 }) {
   const [tab, setTab] = useState(0)
-  const [data, setData] = useState<ProjectData[]>([])
+  const [data, setData] = useState<Project[]>([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [projects, setProjects] = useState<Project[]>([])
   const projectsPerPage = 6 
+  const user = useAppSelector((state) => state.user?.user)
+
+  useEffect(() => {
+    (async function() {
+      const response = await getAllProjects()
+      setProjects(response)
+    })()
+  }, [])
 
   useEffect(() => {
     const handleUpdate = (value: number) => setTab(value)
@@ -27,17 +38,16 @@ export default function TabsContent({
     if (tab === 1) {
       filteredData = projects.filter(project => project.status === 'Completed')
     } else if (tab === 2) {
-      filteredData = projects.filter(project => project.status === 'Incomplete')
-    } else if (tab === 3) {
-      filteredData = projects.filter(project => project.assignedToYou === true)
+      filteredData = projects.filter(project => project.status === 'On-Progress')
+    } else if (tab === 3 && user) {
+      filteredData = projects.filter(project => user.teams.find((team: Team) => team.teamName === project.team))
     }
 
     if (query) {
       const lowerCaseQuery = query.toLowerCase()
       filteredData = filteredData.filter(project =>
-        project.projectName.toLowerCase().includes(lowerCaseQuery) ||
-        project.description.toLowerCase().includes(lowerCaseQuery) ||
-        project.status.toLowerCase().includes(lowerCaseQuery)
+        project.name.toLowerCase().includes(lowerCaseQuery) ||
+        project.description.toLowerCase().includes(lowerCaseQuery)
       )
     }
 
@@ -48,7 +58,7 @@ export default function TabsContent({
     return () => {
       projectTabsEmitter.off('all', handleUpdate)
     }
-  }, [tab, query])
+  }, [tab, query, projects])
 
   const indexOfLastProject = currentPage * projectsPerPage
   const indexOfFirstProject = indexOfLastProject - projectsPerPage
@@ -70,11 +80,11 @@ export default function TabsContent({
   return (
     <>
       {currentProjects.map(project => (
-        <Link href={`projects/${project.projectId}`} key={project.projectId}>
+        <Link href={`projects/${project._id}`} key={project._id}>
           <div className="w-full h-full p-5 pl-7 pe-7 custom-box-shadow rounded-2xl bg-white flex flex-col">
             <div className="flex justify-between flex-row items-center border-b-2">
               <div className="flex flex-row items-center gap-2">
-                <h4 className="bold font-medium">{project.projectName}</h4>
+                <h4 className="bold font-medium">{project.name}</h4>
               </div>
               <h4 className="p-1 pl-3 pe-3 mb-1 rounded bg-green-100 text-[#00dc3a] text-nowrap bold font-medium">{project.status}</h4>
             </div>
@@ -83,7 +93,7 @@ export default function TabsContent({
             </div>
             <div>
               <div className="mb-2">
-                <h4 className="text-[#ff0000] font-medium text-sm">Deadline: {project.deadline}</h4>
+                <h4 className="text-[#ff0000] font-medium text-sm">Deadline: {format(project.endDate, 'PPPP')}</h4>
               </div>
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row justify-end">
@@ -105,7 +115,7 @@ export default function TabsContent({
                 </div>
                 <div className="flex flex-row items-center gap-1.5">
                   <Image src={Issue} alt='Issue' width={20} className='rounded-full'/>
-                  <h4>14 Issue</h4>
+                  <h4>14 Tasks</h4>
                 </div>
               </div>
             </div>

@@ -13,7 +13,7 @@ import DP from '@/public/evil-rabbit.png';
 
 export default function TaskSlider() {
 
-  const filteredTasks = mockTasks.filter((task) => task.statuses === 'Pending' || task.statuses === 'Started');
+  const filteredTasks = mockTasks.filter((task) => task.status === 'Pending' || task.status === 'Started');
 
   return (
     <>
@@ -42,13 +42,13 @@ export default function TaskSlider() {
                 <div className="flex flex-col">
                   <h4 className="font-medium text-md">{task.taskName}</h4>
                   <h4 className="font-medium text-sm text-gray-500 flex gap-3 flex-row">
-                    {task.taskId} {task.createdDate}
+                    {task.taskId}
                     <span className="text-md text-black">{' '}{task.createdBy}{' '}</span>
-                    {task.statuses.includes('Canceled') ? (
+                    {task.status.includes('Canceled') ? (
                       <span className="text-md text-black p-0.5 bg-[#ff050578] rounded-md pl-2 pe-2">Canceled</span>
                     ) :
-                      !task.statuses.includes('Completed') &&
-                        <span className="text-md text-black p-0.5 bg-green-100 rounded-md pl-2 pe-2">{task.statuses}</span>
+                      !task.status.includes('Completed') &&
+                        <span className="text-md text-black p-0.5 bg-green-100 rounded-md pl-2 pe-2">{task.status}</span>
                       
                     }
                     <span className="text-md text-black p-0.5 bg-green-100 rounded-md pl-2 pe-2">{task.priority}</span>

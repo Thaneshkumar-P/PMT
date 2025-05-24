@@ -6,7 +6,7 @@ export default function Page() {
       <div className="flex flex-col gap-5">
         <div>
           <h4 className="font-medium text-xl">Access Control</h4>
-          <p className="font-small text-base text-gray-500"></p>
+          <p className="font-small text-base text-gray-500">Add users to have special access to this project.</p>
         </div>
         <hr></hr>
         <div className="flex flex-col gap-5">

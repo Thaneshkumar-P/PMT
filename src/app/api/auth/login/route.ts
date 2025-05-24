@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     let res;
     if(data.access_token){
-      res = NextResponse.json({ message: 'Login successful' });
+      res = NextResponse.json({ message: 'Login successful', user: data.user });
       res.cookies.set('token', data.access_token, { httpOnly: true, path: '/' });
     }
     else {

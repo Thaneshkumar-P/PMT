@@ -9,6 +9,7 @@ import { createUser } from "../actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SnackBar from "@/src/app/ui/SnackBar";
+import { toast } from "sonner";
 
 
 export default function Page() {
@@ -385,7 +386,7 @@ export default function Page() {
             </div>
             <hr></hr>
             <div className='p-6'>
-              <CustomFields id="people" onChange={handleCustomFieldChange} />
+              <CustomFields id="people" onChange={handleCustomFieldChange} additional={customFields} />
             </div>
             <hr></hr>
             <div>

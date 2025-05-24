@@ -14,7 +14,7 @@ import { PieChart, Pie, Legend, XAxis, YAxis, CartesianGrid, Tooltip, Area, Area
 
 
 import { TaskStruct, LogStruct, PerStruct } from "@/src/app/lib/definition";
-import { Select, SelectContent, SelectGroup, SelectValue, SelectItem, SelectTrigger } from "@/src/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectValue, SelectItem, SelectTrigger } from "@/components/ui/select";
 import React, { useState } from "react";
 
 export function TaskChart({ data }: 

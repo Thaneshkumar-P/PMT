@@ -40,7 +40,7 @@ export default function Page({
         <div className="w-full h-full mt-4">
           <div className="grid grid-cols-3 gap-8 grid-rows-2">
             <Suspense fallback={<h4>Loading</h4>}>
-              <TabsContent query={query}/>
+              <TabsContent query={query} />
             </Suspense>
           </div>
         </div>

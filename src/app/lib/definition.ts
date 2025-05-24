@@ -18,17 +18,6 @@ export type PerStruct = {
   hoursSpent: number
 }
 
-export interface ProjectData {
-  projectId: string;
-  projectName: string;
-  status: 'Completed' | 'Incomplete' | 'In Progress' | 'Planning';
-  description: string;
-  deadline: string;
-  teamMembers: StaticImageData[];
-  issues: number;
-  assignedToYou: boolean;
-}
-
 export type ProjectField = {
   fieldId: string;
   fieldName: string;
@@ -68,16 +57,76 @@ export type Team = {
 
 type TaskStatus = 'Pending' | 'Completed' | 'Started' | 'Canceled';
 
-export type Task = {
-  taskName: string;
-  taskId: string;
-  createdDate: string;
-  createdBy: string;
-  statuses: TaskStatus;
-  priority: 'High' | 'Low' | 'Medium'
-  timer: string;
-  userImage: string;
-  hasMessages: boolean;
+// export type Task = {
+//   taskName: string;
+//   taskId: string;
+//   createdDate: string;
+//   createdBy: string;
+//   statuses: TaskStatus;
+//   priority: 'High' | 'Low' | 'Medium'
+//   timer: string;
+//   userImage: string;
+//   hasMessages: boolean;
+// }
+
+export type Project = {
+  _id?: string
+  name: string;
+  type: string;
+  startDate: Date;
+  endDate: Date;
+  description: string;
+  status: 'Completed' | 'Drafted' | 'On-Progress' | 'Incomplete'
+  priority: string
+  team: string
+  settings: Settings
+  approved: number
+  completed: number
+  additional?: [] | undefined
 }
+
+export type Settings =  {
+  assigned: boolean
+  mentioned: boolean
+  isDue: boolean
+  access: {
+    user: string,
+    type: number
+    duration: string
+  }[]
+}
+
+export type Task = {
+  timer: string;
+  createdDate: Date;
+  _id?: string; 
+  taskId: string;
+  taskName: string;
+  startDate: Date;
+  endDate: Date;
+  description: string;
+  priority: string;
+  actualStartDate?: Date;
+  actualEndDate?: Date;
+  createdBy: string;
+  status: string; 
+  completionPercentage: number; 
+  assignedTo: string
+};
+
+export type Phase = {
+  _id?: string; 
+  phaseName: string;
+  startDate: Date;
+  endDate: Date;
+  description: string;
+  priority: string;
+  actualStartDate?: Date;
+  actualEndDate?: Date;
+  completed: number;
+  status: string; 
+  completionPercentage: number; 
+  tasks: Task[];
+};
 
 

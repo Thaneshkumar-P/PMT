@@ -15,7 +15,7 @@ export default function Tabs() {
       <div className="flex flex-row justify-center gap-6">
         <button className={`py-4 ${tab === 0 && 'border-b-2 border-blue-600'} text-sm font-medium`} onClick={() => handleEmit(0)}>All</button>
         <button className={`py-4 ${tab === 1 && 'border-b-2 border-blue-600'} text-sm font-medium`} onClick={() => handleEmit(1)}>Completed</button>
-        <button className={`py-4 ${tab === 2 && 'border-b-2 border-blue-600'} text-sm font-medium`} onClick={() => handleEmit(2)}>Incomplete</button>
+        <button className={`py-4 ${tab === 2 && 'border-b-2 border-blue-600'} text-sm font-medium`} onClick={() => handleEmit(2)}>In-Progress</button>
         <button className={`py-4 ${tab === 3 && 'border-b-2 border-blue-600'} text-sm font-medium`} onClick={() => handleEmit(3)}>Assigned to you</button>
       </div>
     </div>

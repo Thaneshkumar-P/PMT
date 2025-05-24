@@ -61,7 +61,7 @@ export default function Page({
           <div className="bg-white shadow rounded-[16px]">
             <div className="p-6 flex flex-col gap-5">
               <div className='grid grid-cols-4 gap-5'>
-                <TabsContent query={query}/>
+                <TabsContent query={query} />
               </div>
             </div>
           </div>

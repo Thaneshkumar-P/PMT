@@ -3,10 +3,10 @@
 import axios from "axios"
 import { cookies } from "next/headers";
 
-export async function createProject(project: any) {
+export async function createPhase(phase: any) {
   try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/projects`, 
-    { project }, 
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/phases`, 
+    { phase }, 
     { headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${cookies().get('token')?.value}`
@@ -19,14 +19,14 @@ export async function createProject(project: any) {
   }
 }
 
-export async function getAllProjects() {
+export async function getAllPhases() {
   try {
     const token = cookies().get('token')?.value;
     if (!token) {
       return { message: 'Unauthorized', status: 401 };
     }
 
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/phases`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -41,14 +41,14 @@ export async function getAllProjects() {
   }
 }
 
-export async function getProjectById(id: string) {
+export async function getPhaseById(id: string) {
   try {
     const token = cookies().get('token')?.value;
     if (!token) {
       return { message: 'Unauthorized', status: 401 };
     }
 
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects/${id}`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/phases/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -63,7 +63,7 @@ export async function getProjectById(id: string) {
   }
 }
 
-export async function updateProject(id: string, project: any) {
+export async function updatePhase(id: string, phase: any) {
   try {
     const token = cookies().get('token')?.value;
     if (!token) {
@@ -71,8 +71,8 @@ export async function updateProject(id: string, project: any) {
     }
 
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_URL}/projects/${id}`,
-      project,
+      `${process.env.NEXT_PUBLIC_API_URL}/phases/${id}`,
+      phase,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -90,20 +90,20 @@ export async function updateProject(id: string, project: any) {
   }
 }
 
-export async function deleteProject(id: string) {
+export async function deletePhase(id: string) {
   try {
     const token = cookies().get('token')?.value;
     if (!token) {
       return { message: 'Unauthorized', status: 401 };
     }
 
-    const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/projects/${id}`, {
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/phases/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
     });
 
-    return { message: 'Project deleted successfully', status: response.status };
+    return { message: 'Phase deleted successfully', status: response.status };
   } catch (error: any) {
     if (error.response && error.response.data) {
       return { message: error.response.data.message, status: error.response.status };

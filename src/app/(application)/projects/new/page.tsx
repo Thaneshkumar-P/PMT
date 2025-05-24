@@ -4,15 +4,48 @@ import CustomFields from "@/src/app/ui/projects/CustomFields";
 import CustomFieldsSelector from "@/src/app/ui/projects/CustomFieldsSelector";
 import { useEffect, useState } from "react";
 import { getTeam, getTeams } from "../../teams/actions";
-import { Team, User } from "@/src/app/lib/definition";
+import { Project, Team, User } from "@/src/app/lib/definition";
 import TeamCard from "@/src/app/ui/teams/teamsCard";
+import { createProject } from "../actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 
 export default function Page() {
 
+  const router = useRouter()
+
   const [customFields, setCustomFields] = useState<any>({});
   const [teams, setTeams] = useState<Team[]>()
   const [selectedTeam, setSelectedTeam] = useState<User[]>()
+  const [project, setProject] = useState<Project>({
+    _id: '',
+    name: '',
+    type: '',
+    startDate: new Date(),
+    endDate: new Date(),
+    description: '',
+    status: 'Drafted',
+    priority: '',
+    approved: 0,
+    completed: 0,
+    settings: {
+      access: [],
+      assigned: false,
+      mentioned: false,
+      isDue: false
+    },
+    team: ''
+  })
+
+  function updateState(field: keyof Project, value: string | number): void {
+    setProject({
+      ...project,
+      [field]: value
+    });
+
+    // validateField(field, value);
+  }
 
 
   useEffect(() => {
@@ -32,8 +65,41 @@ export default function Page() {
   async function getSelectedTeam(id: string) {    
     const team = await getTeam(id)
     setSelectedTeam(team.users)
-    console.log(team)
+    setProject({
+      ...project,
+      team: id
+    })
     return;
+  }
+
+  async function handleCreate() {
+
+    const completeProject = {
+      ...project,
+      additional: customFields
+    }
+
+    console.log(completeProject)
+
+    const res: Project = await createProject(completeProject)
+
+    if(res._id){
+      toast.success('Project created successfully', {
+        style: {
+          backgroundColor: 'green',
+          color: '#fff'
+        }
+      })
+      router.replace(`/projects/${res._id}`)
+    }
+    else{
+      toast.error('Validation Error', {
+        style: {
+          backgroundColor: '#f30000',
+          color: '#fff'
+        }
+      })
+    }
   }
 
   return (
@@ -56,6 +122,7 @@ export default function Page() {
                       name="projectTitle"
                       type={"text"}
                       placeholder="Project Title"
+                      onChange={(e) => updateState('name', e.target.value)}
                       className="border rounded-md pt-[12px] pb-[12px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
@@ -70,6 +137,7 @@ export default function Page() {
                       name="projectType"
                       type="text"
                       placeholder="Project Type"
+                      onChange={(e) => updateState('type', e.target.value)}
                       className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
@@ -83,6 +151,7 @@ export default function Page() {
                       id="startDate"
                       name="startDate"
                       type="date"
+                      onChange={(e) => updateState('startDate', e.target.value)}
                       className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
@@ -96,6 +165,7 @@ export default function Page() {
                       id="endDate"
                       name="endDate"
                       type="date"
+                      onChange={(e) => updateState('endDate', e.target.value)}
                       className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
                     />
                   </div>
@@ -109,6 +179,7 @@ export default function Page() {
                       id="description"
                       name="description"
                       placeholder="Project Description"
+                      onChange={(e) => updateState('description', e.target.value)}
                       className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none resize-none"
                     />
                   </div>
@@ -122,6 +193,7 @@ export default function Page() {
                       id="priority"
                       name="priority"
                       className="border rounded-md pt-[11px] pb-[11px] pl-[14px] pr-[14px] w-full input-border text-black placeholder-gray-300 border-gray-300 outline-none"
+                      onChange={(e) => updateState('priority', e.target.value)}
                       defaultValue=""
                     >
                       <option value="" disabled>Choose Priority</option>
@@ -158,14 +230,14 @@ export default function Page() {
             </div>
             <hr></hr>
             <div className='p-6'>
-              <CustomFields id="project" onChange={handleCustomFieldChange} />
+              <CustomFields id="project" onChange={handleCustomFieldChange} additional={customFields} />
             </div>
             <hr></hr>
             <div>
               <div className="p-6">
                 <div className="w-full">
                   <div className="flex flex-row-reverse w-full items-center gap-5">
-                    <button className="py-1.5 px-5 bg-blue-500 rounded-md text-white font-semibold flex items-center gap-2">Create</button>
+                    <button className="py-1.5 px-5 bg-blue-500 rounded-md text-white font-semibold flex items-center gap-2" onClick={handleCreate}>Create</button>
                     <button className="py-1.5 px-5 border border-blue-500 text-blue-500 rounded-md bg-white font-semibold flex items-center gap-2 hover:bg-gray-100 ">Clear</button>
                   </div>
                 </div>
